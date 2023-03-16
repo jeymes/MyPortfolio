@@ -1,8 +1,15 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
+import theme from './src/theme';
 function App(): JSX.Element {
   return (
-    <View>
+    <View
+    style={{flex: 1, backgroundColor: theme.COLORS.GRADIENT}}>
+      <StatusBar
+      backgroundColor='transparent'
+      translucent
+      barStyle='light-content'
+      />
       <Text>
         Teste
       </Text>
