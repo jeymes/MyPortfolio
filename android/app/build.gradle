@@ -91,6 +91,11 @@ def reactNativeArchitectures() {
 android {
     ndkVersion rootProject.ext.ndkVersion
 
+    project.ext.react = {
+    extraPackagerArgs = [        '--asset-exst=ttf'    ]
+}
+
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     namespace "com.myportfolio"
