@@ -1,7 +1,7 @@
 import React from 'react';
-import { StatusBar, Text, View } from 'react-native';
-import theme from './src/theme';
+import { StatusBar } from 'react-native';
 import { Home } from './src/screens/Home';
+import { Routes } from './src/routes';
 function App(): JSX.Element {
   return (
     <>
@@ -10,7 +10,7 @@ function App(): JSX.Element {
       translucent
       barStyle='light-content'
       />
-      <Home/>
+      <Routes/>
     </>
   );
 }
