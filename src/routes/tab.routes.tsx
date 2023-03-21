@@ -5,6 +5,7 @@ import theme from '../theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home } from '../screens/Home';
 import { BottomTab } from '../components/BottomTab';
+import { Web } from '../screens/Web';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -40,7 +41,7 @@ export function TabRoutes(){
             />
            <Screen
             name='web'
-            component={Home}
+            component={Web}
             options={{
                 tabBarIcon: ({ color}) =>(
                     <BottomTab

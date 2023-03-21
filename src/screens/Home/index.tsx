@@ -15,7 +15,9 @@ export function Home() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.subContainer}
       >
-      <Header/>
+      <Header
+      title='My Portfólio'
+      />
 
       <ScrollView
       showsVerticalScrollIndicator={false}

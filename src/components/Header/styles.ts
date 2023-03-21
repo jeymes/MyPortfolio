@@ -35,5 +35,5 @@ export const styles = StyleSheet.create({
         fontSize: 15,
         paddingLeft: 10,
         fontFamily: theme.FONT_FAMILY.TITLE
-    }
+    },
 })

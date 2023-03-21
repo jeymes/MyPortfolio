@@ -2,21 +2,26 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 
 import { styles } from './styles';
-
-import happy from "../../assets/icon.png"
+import happy from "../../assets/icon.png";
 import { Searchs } from '../Searchs';
 
-export function Header() {
+type Props = {
+title: string;
+type?: boolean;
+}
+
+export function Header({type = false, title}: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
         
         <View style={styles.containerLogo}>
-        <Image
-      style={styles.logo}
-      source={happy}/>
+          { type ? false : <Image
+        style={styles.logo}
+        source={happy}
+        />}
         <Text style={styles.title}>
-            My Portfólio
+        {title}
         </Text>
         </View>
 
