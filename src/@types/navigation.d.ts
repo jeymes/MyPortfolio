@@ -5,6 +5,7 @@ export declare global {
            home: undefined;
            web: undefined;
            mobile: undefined;
+           register: undefined;
            
         }
     }

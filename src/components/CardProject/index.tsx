@@ -4,10 +4,20 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import logo from '../../assets/brand.png'
 
 import { styles } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 export function CardProject() {
+
+    const navigation = useNavigation()
+
+    function handleProjets() {
+        navigation.navigate('register')
+    }
+
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity 
+    onPress={handleProjets}
+    style={styles.container}>
         <View style={styles.subContainer}>
 
             <View style={styles.containerImage}>

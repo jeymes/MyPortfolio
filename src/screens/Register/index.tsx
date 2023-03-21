@@ -3,8 +3,18 @@ import { KeyboardAvoidingView, Platform, View, Text, TouchableOpacity, TextInput
 
 import { styles } from './styles';
 import { Button } from '../../components/Button';
+import { ArrowLeft } from 'react-native-feather';
+import theme from '../../theme';
+import { useNavigation } from '@react-navigation/native';
 
 export function Register() {
+
+    const navigation = useNavigation()
+
+    function handleGoBack() {
+        navigation.goBack()
+    }
+
   return (
       <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -17,9 +27,21 @@ export function Register() {
         <View style={styles.subContainer} >
 
             <View style={styles.header}>
+                <TouchableOpacity
+                onPress={handleGoBack} 
+                style={styles.buttonBack} >
+                    <ArrowLeft
+                    width={25}
+                    height={25}
+                    color={theme.COLORS.SECONDARY}
+                    />
+                </TouchableOpacity>
                 <Text style={styles.title}>
                     Cadastrar
                 </Text>
+                <View
+                style={{ width: 40, height: 40 }}
+                />
             </View>
 
             <View style={styles.content} >

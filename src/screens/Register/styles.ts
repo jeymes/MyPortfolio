@@ -20,12 +20,22 @@ export const styles = StyleSheet.create({
         //borderWidth: 1,
         // borderColor: 'red'
     },
+    buttonBack: {
+        width: 40,
+        height: 40,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: theme.COLORS.BORDER,
+        borderWidth: 1,
+    },
     header: {
         width: '100%',
         height: getHeight,
         paddingTop: getBottom,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
+        flexDirection: 'row',
     },
     title: {
         fontSize: 20,
