@@ -53,21 +53,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
-    buttonUpgrad: {
-        width: 100,
-        height: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginTop: 30,
-        backgroundColor: theme.COLORS.SECONDARY,
-    },
-    titleButton: {
-        fontSize: 12,
-        fontFamily: theme.FONT_FAMILY.TITLE,
-        color: theme.COLORS.PRIMARY,
-        textAlign: 'center',
-    },
     containerVideo: {
         width: '60%',
         justifyContent: 'center',
@@ -128,22 +113,16 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         marginTop: 30,
-        // borderWidth: 1,
-        // borderColor: 'red'
     },
     containerSkill: {
         width: '30%',
         justifyContent: 'center',
         alignItems: 'center',
-        // borderWidth: 1,
-        // borderColor: 'red'
     },
     subContainerSkills: {
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        // borderWidth: 1,
-        // borderColor: 'red'
     },
     skill: {
         width: 80,
@@ -159,21 +138,6 @@ export const styles = StyleSheet.create({
         color: theme.COLORS.DESCRIPTION,
         textAlign: 'center',
         padding: 3,
-    },
-    buttonUpgradSkill: {
-        width: 100,
-        height: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginTop: 30,
-        backgroundColor: theme.COLORS.SECONDARY,
-    },
-    titleButtonSkill: {
-        fontSize: 12,
-        fontFamily: theme.FONT_FAMILY.TITLE,
-        color: theme.COLORS.PRIMARY,
-        textAlign: 'center',
     },
     containerInputSkill: {
         width: '100%',

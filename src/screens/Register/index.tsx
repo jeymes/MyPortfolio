@@ -1,16 +1,57 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, View, Text, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { 
+    KeyboardAvoidingView, 
+    Platform, 
+    View, 
+    Text, 
+    TouchableOpacity,
+    TouchableOpacityProps,
+    TextInput,
+    ScrollView,
+    Alert,
+    ActivityIndicator,
+    } from 'react-native';
 
 import { styles } from './styles';
 import { Button } from '../../components/Button';
 import { ArrowLeft } from 'react-native-feather';
 import theme from '../../theme';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import { Photo } from '../../components/Photo';
 import Video from 'react-native-video';
 
-export function Register() {
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import { ButtonUpdate } from '../../components/ButtonUpdate';
+
+export type ProductProps ={
+    // id: string;
+    photo_url: string,
+    video_url: string,
+    name: string,
+    description: string,
+    skills: {
+        skill01: {
+            photo_skill: string,
+            name_skill: string,
+        },
+        skill02: {
+            photo_skill: string,
+            name_skill: string,
+        }
+        skill03: {
+            photo_skill: string,
+            name_skill: string,
+        }
+    }
+  }
+  
+  type Props = {
+    data: ProductProps;
+  }
+
+export function Register({ data }: Props) {
 
     const navigation = useNavigation()
 
@@ -28,13 +69,16 @@ export function Register() {
     const [nameSkill02, setNameSkill02] = useState('');
     const [nameSkill03, setNameSkill03] = useState('');
 
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
+    const route = useRoute();
+    // const { id } = route.params as ProductProps;
 
     function handleGoBack() {
         navigation.goBack()
     }
 
-    const handlePickerImage = () => {
+    const handlePickerImageLogo = () => {
         ImagePicker.openPicker
         ({ 
           width: 100, 
@@ -46,6 +90,42 @@ export function Register() {
         });
     };
 
+    const handlePickerImageSkill01 = () => {
+        ImagePicker.openPicker
+        ({ 
+          width: 80, 
+          height: 80, 
+          cropping: true
+        })
+        .then(image => {
+            setSkill01(image.path);
+        });
+    };
+
+    const handlePickerImageSkill02 = () => {
+        ImagePicker.openPicker
+        ({ 
+          width: 80, 
+          height: 80, 
+          cropping: true
+        })
+        .then(image => {
+            setSkill02(image.path);
+        });
+    };
+
+    const handlePickerImageSkill03 = () => {
+        ImagePicker.openPicker
+        ({ 
+          width: 80, 
+          height: 80, 
+          cropping: true
+        })
+        .then(image => {
+            setSkill03(image.path);
+        });
+    };
+
     const handlePickerVideo = () => {
         ImagePicker.openPicker({
             mediaType: "video",
@@ -54,6 +134,80 @@ export function Register() {
           });
     };
 
+    async function handleAdd(){
+      if (!name.trim()) {
+        return Alert.alert("Cadastro", "Informe o nome da pizza.");
+      }
+      if (!description.trim()) {
+        return Alert.alert("Cadastro", "Informe a descrição da pizza.");
+      }
+      if (!imagePath) {
+        return Alert.alert("Cadastro", "Selecione a imagem da pizza.");
+      }
+      if (!skill01 || !skill02 || !skill03) {
+        return Alert.alert("Cadastro", "Informe o preço de todos os tamanhos da pizza.");
+      }
+      if (!nameSkill01 || !nameSkill02 || !nameSkill03) {
+        return Alert.alert("Cadastro", "Informe o preço de todos os tamanhos da pizza.");
+      }
+
+      setIsLoading(true);
+      setIsDisabled(true);
+
+      const fileName = new Date().getTime()
+
+      const referencePhoto = storage().ref(`/img/${fileName}.png`);
+      const referenceVideo = storage().ref(`/video/${fileName}.mp4`);
+
+      await referencePhoto.putFile(imagePath);
+      const photo_url = await referencePhoto.getDownloadURL();
+
+      await referenceVideo.putFile(videoPath);
+      const video_url = await referenceVideo.getDownloadURL();
+
+      firestore()
+      .collection('mobile')
+      .add({
+        name,
+        name_insensitive: name.toLowerCase().trim(),
+        description,
+        photo_url,
+        photo_path: referencePhoto.fullPath,
+        video_url,
+        video_path: referenceVideo.fullPath,
+        skills:{
+            photo01: skill01,
+            photo02: skill02,
+            photo03: skill02,
+
+            name01: nameSkill01,
+            name02: nameSkill02,
+            name03: nameSkill03,
+        }
+      })
+      .then(() => navigation.navigate('home'))
+      .catch(() =>{
+      setIsLoading(false);
+       Alert.alert("Cadastro", "Não foi possivel cadastrar a pizza.")})
+    }
+
+
+    // useEffect(() => {
+    //     if (id) {
+    //       firestore()
+    //       .collection('pizzas')
+    //       .doc(id)
+    //       .get()
+    //       .then(response => {
+    //         const product = response.data() as ProductProps;
+  
+    //         setName(product.name);
+    //         setImagePath(product.photo_url);
+    //         setDescription(product.description);
+
+    //       })
+    //     }
+    //   }, [id])
   return (
       <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -92,12 +246,10 @@ export function Register() {
            uri={imagePath}
            />
 
-            <TouchableOpacity
-            onPress={handlePickerImage}
-            style={styles.buttonUpgrad}>
-
-            <Text style={styles.titleButton}>carregar</Text>
-            </TouchableOpacity>
+            <ButtonUpdate
+            onPress={handlePickerImageLogo}
+            title="carregar"
+            />
 
             </View>
 
@@ -120,11 +272,11 @@ export function Register() {
 
             </View>
 
-            <TouchableOpacity 
+            <ButtonUpdate
             onPress={handlePickerVideo}
-            style={styles.buttonUpgrad}>
-                <Text style={styles.titleButton}>carregar</Text>
-            </TouchableOpacity>
+            title="carregar"
+            />
+
             </View>
             </View>
 
@@ -167,11 +319,11 @@ export function Register() {
                 />
             </View>
                 </View>
-            
 
-            <TouchableOpacity style={styles.buttonUpgradSkill}>
-            <Text style={styles.titleButtonSkill}>carregar</Text>
-            </TouchableOpacity>
+            <ButtonUpdate
+            onPress={handlePickerImageSkill01}
+            title="carregar"
+            />
 
             </View>
             <View style={styles.containerSkill}>
@@ -193,10 +345,10 @@ export function Register() {
             </View>
                 </View>
             
-
-            <TouchableOpacity style={styles.buttonUpgradSkill}>
-            <Text style={styles.titleButtonSkill}>carregar</Text>
-            </TouchableOpacity>
+            <ButtonUpdate
+            onPress={handlePickerImageSkill02}
+            title="carregar"
+            />
 
             </View>
             <View style={styles.containerSkill}>
@@ -219,16 +371,20 @@ export function Register() {
                 </View>
             
 
-            <TouchableOpacity style={styles.buttonUpgradSkill}>
-            <Text style={styles.titleButtonSkill}>carregar</Text>
-            </TouchableOpacity>
+            <ButtonUpdate
+            onPress={handlePickerImageSkill03}
+            title="carregar"
+            />
+            
 
             </View>
             </View>
 
             <View style={styles.buttonSalve}>
             <Button
-            title='Salvar Projeto'
+            onPress={handleAdd}
+            disabled={isDisabled}
+            title={isLoading ? <ActivityIndicator color={theme.COLORS.PRIMARY} /> : 'Salvar Projeto'}
             />
  
             </View>
