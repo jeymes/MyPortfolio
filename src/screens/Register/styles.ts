@@ -53,20 +53,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
-    logo: {
-        width: 100,
-        height: 100,
-        borderRadius: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: theme.COLORS.SECONDARY,
-    },
-    titleLogo: {
-        fontSize: 12,
-        fontFamily: theme.FONT_FAMILY.TEXT,
-        color: theme.COLORS.DESCRIPTION,
-        textAlign: 'center',
-    },
     buttonUpgrad: {
         width: 100,
         height: 30,
@@ -89,7 +75,7 @@ export const styles = StyleSheet.create({
     },
     video: {
         width: '100%',
-        height: 150,
+        height: 200,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,19 +1,58 @@
-import React from 'react';
-import { KeyboardAvoidingView, Platform, View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, Platform, View, Text, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 
 import { styles } from './styles';
 import { Button } from '../../components/Button';
 import { ArrowLeft } from 'react-native-feather';
 import theme from '../../theme';
 import { useNavigation } from '@react-navigation/native';
+import ImagePicker from 'react-native-image-crop-picker';
+import { Photo } from '../../components/Photo';
+import Video from 'react-native-video';
 
 export function Register() {
 
     const navigation = useNavigation()
 
+    const [imagePath, setImagePath] = useState('');
+    const [videoPath, setVideoPath] = useState('');
+
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+
+    const [skill01, setSkill01] = useState('');
+    const [skill02, setSkill02] = useState('');
+    const [skill03, setSkill03] = useState('');
+
+    const [nameSkill01, setNameSkill01] = useState('');
+    const [nameSkill02, setNameSkill02] = useState('');
+    const [nameSkill03, setNameSkill03] = useState('');
+
+
+
     function handleGoBack() {
         navigation.goBack()
     }
+
+    const handlePickerImage = () => {
+        ImagePicker.openPicker
+        ({ 
+          width: 100, 
+          height: 100, 
+          cropping: true
+        })
+        .then(image => {
+          setImagePath(image.path);
+        });
+    };
+
+    const handlePickerVideo = () => {
+        ImagePicker.openPicker({
+            mediaType: "video",
+          }).then((video) => {
+            setVideoPath(video.path);
+          });
+    };
 
   return (
       <KeyboardAvoidingView
@@ -48,13 +87,15 @@ export function Register() {
 
             <View style={styles.containerLogo}>
 
-            <View style={styles.logo}>
-                <Text style={styles.titleLogo}>
-                    Nenhum logo carregado
-                </Text>
-            </View>
+           <Photo
+           title='Nenhuma foto carregada'
+           uri={imagePath}
+           />
 
-            <TouchableOpacity style={styles.buttonUpgrad}>
+            <TouchableOpacity
+            onPress={handlePickerImage}
+            style={styles.buttonUpgrad}>
+
             <Text style={styles.titleButton}>carregar</Text>
             </TouchableOpacity>
 
@@ -63,12 +104,25 @@ export function Register() {
             <View style={styles.containerVideo}>
 
             <View style={styles.video}>
+
+                {
+                videoPath !== '' ?
+                <Video
+
+                style={{ width: "100%", height: "100%", borderRadius: 10,}}
+                source={{ uri: videoPath }}
+                controls={true}
+                />
+                :
                 <Text style={styles.titlevideo}>
                     Nenhum video carregado
-                </Text>
+                </Text>}
+
             </View>
 
-            <TouchableOpacity style={styles.buttonUpgrad}>
+            <TouchableOpacity 
+            onPress={handlePickerVideo}
+            style={styles.buttonUpgrad}>
                 <Text style={styles.titleButton}>carregar</Text>
             </TouchableOpacity>
             </View>
@@ -77,6 +131,7 @@ export function Register() {
             <View style={styles.containerInput}>
                 <Text style={styles.label}>Nome</Text>
                 <TextInput
+                onChangeText={setName}
                 style={styles.inputNome}
                 />
             </View>
@@ -84,6 +139,7 @@ export function Register() {
             <View style={styles.containerInput}>
                 <Text style={styles.label}>Descrição</Text>
                 <TextInput
+                onChangeText={setDescription}
                 style={styles.inputDescription}
                 />
             </View>
@@ -95,15 +151,18 @@ export function Register() {
             <View style={styles.containerSkill}>
 
                 <View style={styles.subContainerSkills}>
-                <View style={styles.skill}>
-                <Text style={styles.titleSkill}>
-                    Nenhuma skill carregada
-                </Text>
-            </View>
+
+                    <Photo
+                    width={80}
+                    fontSize={10}
+                    title='Nenhuma skill carregada'
+                    uri={skill01}
+                    />
 
             <View style={styles.containerInputSkill}>
                 <Text style={styles.labelSkill}>Nome</Text>
                 <TextInput
+                onChangeText={setNameSkill01}
                 style={styles.inputNomeSkill}
                 />
             </View>
@@ -118,15 +177,17 @@ export function Register() {
             <View style={styles.containerSkill}>
 
                 <View style={styles.subContainerSkills}>
-                <View style={styles.skill}>
-                <Text style={styles.titleSkill}>
-                    Nenhuma skill carregada
-                </Text>
-            </View>
+                <Photo
+                    width={80}
+                    fontSize={10}
+                    title='Nenhuma skill carregada'
+                    uri={skill02}
+                    />
 
             <View style={styles.containerInputSkill}>
                 <Text style={styles.labelSkill}>Nome</Text>
                 <TextInput
+                onChangeText={setNameSkill02}
                 style={styles.inputNomeSkill}
                 />
             </View>
@@ -140,16 +201,18 @@ export function Register() {
             </View>
             <View style={styles.containerSkill}>
 
-                <View style={styles.subContainerSkills}>
-                <View style={styles.skill}>
-                <Text style={styles.titleSkill}>
-                    Nenhuma skill carregada
-                </Text>
-            </View>
+             <View style={styles.subContainerSkills}>
+                <Photo
+                    width={80}
+                    fontSize={10}
+                    title='Nenhuma skill carregada'
+                    uri={skill03}
+                    />
 
             <View style={styles.containerInputSkill}>
                 <Text style={styles.labelSkill}>Nome</Text>
                 <TextInput
+                onChangeText={setNameSkill03}
                 style={styles.inputNomeSkill}
                 />
             </View>
