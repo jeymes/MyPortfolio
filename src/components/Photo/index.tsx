@@ -7,14 +7,15 @@ type Props = {
     uri: string | null;
     title: string;
     width?: number;
-    fontSize?: number
+    fontSize?: number;
+    border?: number
 }
 
-export function Photo({ uri, title, width = 100, fontSize = 12 }: Props) {
+export function Photo({ uri, title, width = 100, border = 100, fontSize = 12 }: Props) {
 
     if (uri) {
         return <Image 
-        style={styles.image} 
+        style={[styles.image, { width: width, height: width, borderRadius: border}]}
         source={{ uri }} />;
     }
 

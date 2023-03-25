@@ -146,15 +146,12 @@ export const styles = StyleSheet.create({
     },
     labelSkill:{
         fontSize: 10,
-        width: '100%',
         fontFamily: theme.FONT_FAMILY.TITLE,
         color: theme.COLORS.SECONDARY,
         marginTop: 10,
-        textAlign: 'left',
-        marginLeft: 15,
     },
     inputNomeSkill: {
-        width: 100,
+        width: 80,
         height: 30,
         borderRadius: 10,
         fontSize: 10,

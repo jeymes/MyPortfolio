@@ -306,6 +306,7 @@ export function Register({ data }: Props) {
 
                     <Photo
                     width={80}
+                    border={10}
                     fontSize={10}
                     title='Nenhuma skill carregada'
                     uri={skill01}
@@ -331,6 +332,7 @@ export function Register({ data }: Props) {
                 <View style={styles.subContainerSkills}>
                 <Photo
                     width={80}
+                    border={10}
                     fontSize={10}
                     title='Nenhuma skill carregada'
                     uri={skill02}
@@ -356,6 +358,7 @@ export function Register({ data }: Props) {
              <View style={styles.subContainerSkills}>
                 <Photo
                     width={80}
+                    border={10}
                     fontSize={10}
                     title='Nenhuma skill carregada'
                     uri={skill03}
