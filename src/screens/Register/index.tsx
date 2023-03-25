@@ -5,7 +5,6 @@ import {
     View, 
     Text, 
     TouchableOpacity,
-    TouchableOpacityProps,
     TextInput,
     ScrollView,
     Alert,
@@ -135,20 +134,23 @@ export function Register({ data }: Props) {
     };
 
     async function handleAdd(){
+      if (!imagePath) {
+        return Alert.alert("Cadastro", "Selecione uma logo.");
+      }
+      if (!videoPath) {
+        return Alert.alert("Cadastro", "Selecione um video.");
+      }
       if (!name.trim()) {
-        return Alert.alert("Cadastro", "Informe o nome da pizza.");
+        return Alert.alert("Cadastro", "Informe o nome do projeto.");
       }
       if (!description.trim()) {
-        return Alert.alert("Cadastro", "Informe a descrição da pizza.");
-      }
-      if (!imagePath) {
-        return Alert.alert("Cadastro", "Selecione a imagem da pizza.");
+        return Alert.alert("Cadastro", "Informe a descrição do projeto.");
       }
       if (!skill01 || !skill02 || !skill03) {
-        return Alert.alert("Cadastro", "Informe o preço de todos os tamanhos da pizza.");
+        return Alert.alert("Cadastro", "Informe a logo de uma skill.");
       }
       if (!nameSkill01 || !nameSkill02 || !nameSkill03) {
-        return Alert.alert("Cadastro", "Informe o preço de todos os tamanhos da pizza.");
+        return Alert.alert("Cadastro", "Informe o nome da skill.");
       }
 
       setIsLoading(true);
