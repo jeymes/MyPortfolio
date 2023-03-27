@@ -8,9 +8,13 @@ import { Searchs } from '../Searchs';
 type Props = {
 title: string;
 type?: boolean;
+onChange: any
+value: any;
+onSearch: () => void;
+onClear: () => void;
 }
 
-export function Header({type = false, title}: Props) {
+export function Header({onSearch, onClear, onChange, value, type = false, title}: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
@@ -25,7 +29,12 @@ export function Header({type = false, title}: Props) {
         </Text>
         </View>
 
-        <Searchs/>
+        <Searchs
+        value={value}
+        onChangeText={onChange}
+        onClear={onClear}
+        onSearch={onSearch}
+        />
 
       </View>
     </View>

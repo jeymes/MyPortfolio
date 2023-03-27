@@ -9,14 +9,16 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 
 export function Home() {
+
   const navigation = useNavigation();
   const [data, setData] = useState<ProjectsProps[]>([]);
+  const [search, setSearch] = useState('')
 
   function handlechange(id: string){
     navigation.navigate("register", {id});
   }
 
- function FetchProject(value: string) {
+ function FetchProjects(value: string) {
   const formattedValue = value.toLowerCase().trim();
   const collections = ["mobile", "web"]; // Array com os nomes das coleções
 
@@ -47,8 +49,17 @@ export function Home() {
   }).catch(() => Alert.alert("Consulta", "Não foi possivél realizar a consulta"));
 }
 
+function handleSearch(){
+  FetchProjects(search);
+}
+
+function handleSearchClear(){
+  setSearch('');
+  FetchProjects('');
+}
+
   useFocusEffect(useCallback(() => {
-    FetchProject('')
+    FetchProjects('')
   }, []));
   return (
     <View style={styles.container}>
@@ -57,6 +68,10 @@ export function Home() {
       style={styles.subContainer}
       >
       <Header
+      onChange={setSearch}
+      value={search}
+      onClear={handleSearchClear}
+      onSearch={handleSearch}
       title='My Portfólio'
       />
 
