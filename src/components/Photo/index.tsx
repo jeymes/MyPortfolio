@@ -5,7 +5,7 @@ import { styles } from './styles';
 
 type Props = {
     uri: string | null;
-    title: string;
+    title: any;
     width?: number;
     fontSize?: number;
     border?: number

@@ -24,33 +24,25 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import { ButtonUpdate } from '../../components/ButtonUpdate';
 
-export type ProductProps ={
-    // id: string;
+export type ProjectsProps ={
+    id: string;
     photo_url: string,
     video_url: string,
     name: string,
     description: string,
     skills: {
-        skill01: {
-            photo_skill: string,
-            name_skill: string,
-        },
-        skill02: {
-            photo_skill: string,
-            name_skill: string,
-        }
-        skill03: {
-            photo_skill: string,
-            name_skill: string,
-        }
+
+          photo01: string,
+          name01: string,
+          photo02: string,
+          name02: string,
+          photo03: string,
+          name03: string,
+
     }
   }
-  
-  type Props = {
-    data: ProductProps;
-  }
 
-export function Register({ data }: Props) {
+export function Register() {
 
     const navigation = useNavigation()
 
@@ -71,7 +63,8 @@ export function Register({ data }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const route = useRoute();
-    // const { id } = route.params as ProductProps;
+
+    const { id } = route.params as ProjectsProps;
 
     function handleGoBack() {
         navigation.goBack()
@@ -194,22 +187,28 @@ export function Register({ data }: Props) {
     }
 
 
-    // useEffect(() => {
-    //     if (id) {
-    //       firestore()
-    //       .collection('pizzas')
-    //       .doc(id)
-    //       .get()
-    //       .then(response => {
-    //         const product = response.data() as ProductProps;
-  
-    //         setName(product.name);
-    //         setImagePath(product.photo_url);
-    //         setDescription(product.description);
-
-    //       })
-    //     }
-    //   }, [id])
+   useEffect(()  => {
+        if (id) {
+          firestore()
+          .collection('mobile')
+          .doc(id)
+          .get()
+          .then(response => {
+          const project = response.data() as ProjectsProps;
+           
+            setName(project.name);
+            setImagePath(project.photo_url);
+            setDescription(project.description);
+            setVideoPath(project.video_url);
+            setSkill01(project.skills.photo01);
+            setSkill02(project.skills.photo02);
+            setSkill03(project.skills.photo03);
+            setNameSkill01(project.skills.name01);
+            setNameSkill02(project.skills.name02);
+            setNameSkill03(project.skills.name03);
+          })
+        }
+      }, [id])
   return (
       <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -244,7 +243,7 @@ export function Register({ data }: Props) {
             <View style={styles.containerLogo}>
 
            <Photo
-           title='Nenhuma foto carregada'
+           title={imagePath ? 'Nenhuma foto carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
            uri={imagePath}
            />
 
@@ -258,18 +257,17 @@ export function Register({ data }: Props) {
             <View style={styles.containerVideo}>
 
             <View style={styles.video}>
-
+             
                 {
                 videoPath !== '' ?
-                <Video
-
+               <Video
                 style={{ width: "100%", height: "100%", borderRadius: 10,}}
-                source={{ uri: videoPath }}
+                source={ { uri: videoPath}}
                 controls={true}
                 />
                 :
                 <Text style={styles.titlevideo}>
-                    Nenhum video carregado
+                  {videoPath ? "Nenhum video carregado" :  <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                 </Text>}
 
             </View>
@@ -286,6 +284,7 @@ export function Register({ data }: Props) {
                 <Text style={styles.label}>Nome</Text>
                 <TextInput
                 onChangeText={setName}
+                value={name}
                 style={styles.inputNome}
                 />
             </View>
@@ -294,6 +293,7 @@ export function Register({ data }: Props) {
                 <Text style={styles.label}>Descrição</Text>
                 <TextInput
                 onChangeText={setDescription}
+                value={description}
                 style={styles.inputDescription}
                 />
             </View>
@@ -310,7 +310,7 @@ export function Register({ data }: Props) {
                     width={80}
                     border={10}
                     fontSize={10}
-                    title='Nenhuma skill carregada'
+                    title={skill01 ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                     uri={skill01}
                     />
 
@@ -318,6 +318,7 @@ export function Register({ data }: Props) {
                 <Text style={styles.labelSkill}>Nome</Text>
                 <TextInput
                 onChangeText={setNameSkill01}
+                value={nameSkill01}
                 style={styles.inputNomeSkill}
                 />
             </View>
@@ -336,13 +337,14 @@ export function Register({ data }: Props) {
                     width={80}
                     border={10}
                     fontSize={10}
-                    title='Nenhuma skill carregada'
+                    title={skill02 ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                     uri={skill02}
                     />
 
             <View style={styles.containerInputSkill}>
                 <Text style={styles.labelSkill}>Nome</Text>
                 <TextInput
+                value={nameSkill02}
                 onChangeText={setNameSkill02}
                 style={styles.inputNomeSkill}
                 />
@@ -362,13 +364,14 @@ export function Register({ data }: Props) {
                     width={80}
                     border={10}
                     fontSize={10}
-                    title='Nenhuma skill carregada'
+                    title={skill03 ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                     uri={skill03}
                     />
 
             <View style={styles.containerInputSkill}>
                 <Text style={styles.labelSkill}>Nome</Text>
                 <TextInput
+                value={nameSkill03}
                 onChangeText={setNameSkill03}
                 style={styles.inputNomeSkill}
                 />

@@ -5,8 +5,14 @@ import { Header } from '../../components/Header';
 import { styles } from './styles';
 import { CardProject } from '../../components/CardProject';
 import { Button } from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 export function Mobile() {
+  const navigation = useNavigation();
+
+  function handleOpen(){
+    navigation.navigate("register", {});
+  }
   return (
     <View style={styles.container}>
         <Header
@@ -23,13 +29,14 @@ export function Mobile() {
       showsVerticalScrollIndicator={false}
       style={{ width: '100%'}}
       >
+      {/* <CardProject/>
       <CardProject/>
-      <CardProject/>
-      <CardProject/>
+      <CardProject/> */}
 
       </ScrollView>
 
       <Button
+      onPress={handleOpen}
       title='Cadastrar novo projeto'
       />
 

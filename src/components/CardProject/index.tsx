@@ -1,39 +1,35 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-
-import logo from '../../assets/brand.png'
+import { View, Text, Image, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { ProjectsProps } from '../../screens/Register';
 
-export function CardProject() {
+type Props = TouchableOpacityProps & {
+    data: ProjectsProps;
+  }
 
-    const navigation = useNavigation()
-
-    function handleProjets() {
-        navigation.navigate('register')
-    }
+export function CardProject({ data, ...rest }:Props) {
 
   return (
-    <TouchableOpacity 
-    onPress={handleProjets}
+    <TouchableOpacity
+    {...rest}
     style={styles.container}>
         <View style={styles.subContainer}>
 
             <View style={styles.containerImage}>
                 <Image style={styles.image}
-                source={logo}
+                source={{ uri: data.photo_url }}
                 />
             </View>
 
             <View style={styles.containerInfo}>
                 <Text 
                 numberOfLines={1}
-                style={styles.title}>Go Pizza</Text>
+                style={styles.title}>{data.name}</Text>
                 <Text
                 numberOfLines={3}
                 style={styles.description}>
-                    O aplicativo tem uma lista das Pizzas disponível incluindo seus nomes ingredientes tamanhos e preços os garçons poderão usar o aplicativo para acessar rapidamente as informações do dnkcfedkvfke
+                    {data.description}
                 </Text>
             </View>
 

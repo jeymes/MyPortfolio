@@ -1,3 +1,6 @@
+export type ProjectsNavigationProps = {
+    id?: string;
+}
 export declare global {
     namespace ReactNavigation {
         interface RootParamList {
@@ -5,7 +8,7 @@ export declare global {
            home: undefined;
            web: undefined;
            mobile: undefined;
-           register: undefined;
+           register: ProjectsNavigationProps;
            
         }
     }
