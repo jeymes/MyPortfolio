@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.COLORS.BACKGROUND,
     },
     subContainer: {
-        width: '90%',
+        width: '100%',
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginTop: 20,

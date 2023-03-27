@@ -12,31 +12,41 @@ export function Home() {
   const navigation = useNavigation();
   const [data, setData] = useState<ProjectsProps[]>([]);
 
-  function handleOpen(id: string){
+  function handlechange(id: string){
     navigation.navigate("register", {id});
   }
 
-  function FetchProject(value: string){
-    const formattedValue = value.toLowerCase().trim();
+ function FetchProject(value: string) {
+  const formattedValue = value.toLowerCase().trim();
+  const collections = ["mobile", "web"]; // Array com os nomes das coleções
 
-    firestore()
-    .collection('mobile')
-    .orderBy('name_insensitive')
-    .startAt(formattedValue)
-    .endAt(`${formattedValue}\uf8ff`)
-    .get()
-    .then(response => {
-      const data = response.docs.map(doc => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        }
-      }) as ProjectsProps[];
+  const promises = collections.map((collection) => { // Executa a consulta em cada coleção
+    return firestore()
+      .collection(collection)
+      .orderBy('name_insensitive')
+      .startAt(formattedValue)
+      .endAt(`${formattedValue}\uf8ff`)
+      .get()
+      .then(response => {
+        return response.docs.map(doc => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          }
+        }) as ProjectsProps[];
+      })
+      .catch(() => [] as ProjectsProps[]);
+  });
 
-      setData(data)
-    })
-    .catch(() => Alert.alert("Consulta", "Não foi possivél realizar a consulta"))
-  }
+  Promise.all(promises).then((results) => { // Combina os resultados em uma única lista
+    const data = results.reduce((acc, cur) => {
+      return [...acc, ...cur];
+    }, []);
+
+    setData(data);
+  }).catch(() => Alert.alert("Consulta", "Não foi possivél realizar a consulta"));
+}
+
   useFocusEffect(useCallback(() => {
     FetchProject('')
   }, []));
@@ -61,7 +71,7 @@ export function Home() {
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
       <CardProject
-      onPress={() => handleOpen(item.id)}
+      onPress={() => handlechange(item.id)}
       data={item}
       />
       )}

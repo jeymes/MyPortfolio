@@ -23,12 +23,8 @@ export function Web() {
       showsVerticalScrollIndicator={false}
       style={{ width: '100%'}}
       >
-      <CardProject/>
-      <CardProject/>
-      <CardProject/>
 
       </ScrollView>
-
       <Button
       title='Cadastrar novo projeto'
       />

@@ -5,13 +5,14 @@ import { styles } from './styles';
 
 type Props = TouchableOpacityProps &{
   title: any;
+  width?: string;
 }
 
-export function Button({title, ...rest}: Props) {
+export function Button({title, width = '90%', ...rest}: Props) {
   return (
     <TouchableOpacity
     {...rest}
-     style={styles.container}>
+     style={[styles.container, {width: width}]}>
         <Text
         style={styles.title}>
           {title}

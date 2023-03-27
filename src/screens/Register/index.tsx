@@ -161,7 +161,7 @@ export function Register() {
       const video_url = await referenceVideo.getDownloadURL();
 
       firestore()
-      .collection('mobile')
+      .collection('web')
       .add({
         name,
         name_insensitive: name.toLowerCase().trim(),
@@ -173,7 +173,7 @@ export function Register() {
         skills:{
             photo01: skill01,
             photo02: skill02,
-            photo03: skill02,
+            photo03: skill03,
 
             name01: nameSkill01,
             name02: nameSkill02,
@@ -187,28 +187,39 @@ export function Register() {
     }
 
 
-   useEffect(()  => {
-        if (id) {
-          firestore()
-          .collection('mobile')
-          .doc(id)
-          .get()
-          .then(response => {
-          const project = response.data() as ProjectsProps;
-           
-            setName(project.name);
-            setImagePath(project.photo_url);
-            setDescription(project.description);
-            setVideoPath(project.video_url);
-            setSkill01(project.skills.photo01);
-            setSkill02(project.skills.photo02);
-            setSkill03(project.skills.photo03);
-            setNameSkill01(project.skills.name01);
-            setNameSkill02(project.skills.name02);
-            setNameSkill03(project.skills.name03);
-          })
-        }
-      }, [id])
+    useEffect(() => {
+      if (id) {
+        const collections = ["mobile", "web"]; // Array com as coleções que deseja consultar
+        const promises = collections.map((collection) => { // Cria uma referência para cada documento que deseja consultar
+          return firestore()
+            .collection(collection)
+            .doc(id)
+            .get()
+            .then(response => response.data())
+            .catch(() => null);
+        });
+    
+        Promise.all(promises).then((results) => { // Combina os resultados em um único objeto
+          const data = results.reduce((acc, cur) => {
+            return { ...acc, ...cur };
+          }, {});
+          
+          if (data !== null && data !== undefined) {
+            setName(data.name);
+            setImagePath(data.photo_url);
+            setDescription(data.description);
+            setVideoPath(data.video_url);
+            setSkill01(data.skills.photo01);
+            setSkill02(data.skills.photo02);
+            setSkill03(data.skills.photo03);
+            setNameSkill01(data.skills.name01);
+            setNameSkill02(data.skills.name02);
+            setNameSkill03(data.skills.name03);
+          }
+        }).catch(() => Alert.alert("Consulta", "Não foi possível realizar a consulta"));
+      }
+    }, [id]);
+    
   return (
       <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -243,7 +254,7 @@ export function Register() {
             <View style={styles.containerLogo}>
 
            <Photo
-           title={imagePath ? 'Nenhuma foto carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
+           title={imagePath !== id ? 'Nenhuma foto carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
            uri={imagePath}
            />
 
@@ -267,7 +278,7 @@ export function Register() {
                 />
                 :
                 <Text style={styles.titlevideo}>
-                  {videoPath ? "Nenhum video carregado" :  <ActivityIndicator color={theme.COLORS.PRIMARY} />}
+                  {videoPath !== id ? "Nenhum video carregado" :  <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                 </Text>}
 
             </View>
@@ -310,7 +321,7 @@ export function Register() {
                     width={80}
                     border={10}
                     fontSize={10}
-                    title={skill01 ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
+                    title={skill01 !== id ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                     uri={skill01}
                     />
 
@@ -337,7 +348,7 @@ export function Register() {
                     width={80}
                     border={10}
                     fontSize={10}
-                    title={skill02 ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
+                    title={skill02 !== id ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                     uri={skill02}
                     />
 
@@ -364,7 +375,7 @@ export function Register() {
                     width={80}
                     border={10}
                     fontSize={10}
-                    title={skill03 ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
+                    title={skill03 !== id ? 'Nenhuma skill carregada' : <ActivityIndicator color={theme.COLORS.PRIMARY} />}
                     uri={skill03}
                     />
 
@@ -390,11 +401,11 @@ export function Register() {
 
             <View style={styles.buttonSalve}>
             <Button
+            width='100%'
             onPress={handleAdd}
             disabled={isDisabled}
             title={isLoading ? <ActivityIndicator color={theme.COLORS.PRIMARY} /> : 'Salvar Projeto'}
             />
- 
             </View>
 
         </View>
