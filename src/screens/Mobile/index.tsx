@@ -12,16 +12,24 @@ import { CardProject } from '../../components/CardProject';
 export function Mobile() {
   const navigation = useNavigation();
   const [data, setData] = useState<ProjectsProps[]>([]);
+  const [search, setSearch] = useState('')
 
   function handleOpen(){
     navigation.navigate("register", {});
   }
-
+  function handleSearch(){
+    FetchProjectMobile(search);
+  }
+  
+  function handleSearchClear(){
+    setSearch('');
+    FetchProjectMobile('');
+  }
   function handlechange(id: string){
     navigation.navigate("register", {id});
   }
 
-  function FetchProject(value: string){
+  function FetchProjectMobile(value: string){
     const formattedValue = value.toLowerCase().trim();
 
     firestore()
@@ -43,11 +51,15 @@ export function Mobile() {
     .catch(() => Alert.alert("Consulta", "Não foi possivél realizar a consulta"))
   }
   useFocusEffect(useCallback(() => {
-    FetchProject('')
+    FetchProjectMobile('')
   }, []));
   return (
     <View style={styles.container}>
         <Header
+        onChange={setSearch}
+        value={search}
+        onClear={handleSearchClear}
+        onSearch={handleSearch}
         title='Projetos Mobile'
         type={true}
         />
