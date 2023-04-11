@@ -73,9 +73,9 @@ export function Register() {
     const handlePickerImageLogo = () => {
         ImagePicker.openPicker
         ({ 
-          width: 100, 
-          height: 100, 
-          cropping: true
+          width: 500, 
+          height: 300, 
+          cropping: true,
         })
         .then(image => {
           setImagePath(image.path);
